@@ -1,0 +1,20 @@
+set SERVEROUTPUT on;
+declare 
+type asfand123_tabl is table of asfand123%rowtype;
+asfand123_collection asfand123_tabl;
+begin
+select * bulk collect into asfand123_collection from abdar_clng_tabl; --WHERE rownum<15;
+for i in 1..asfand123_collection.count loop
+insert into asfand123 (EMP_ID,         
+            EMP_NAME,           
+            EMP_AGE,                    
+            EMP_SKILL)
+            values(
+            asfand123_collection(i).EMP_ID,
+            asfand123_collection(i).EMP_NAME,
+            asfand123_collection(i).EMP_AGE,
+            asfand123_collection(i).EMP_SKILL);
+    end loop;
+dbms_output.put_line('started the insertion at'||' '||sysdate);    
+dbms_output.put_line('number of records inserted into asfand123'||':'||asfand123_collection.count);
+end;
